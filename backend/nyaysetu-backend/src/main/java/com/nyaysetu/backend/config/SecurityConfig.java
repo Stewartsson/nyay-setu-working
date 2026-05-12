@@ -63,13 +63,25 @@ public class SecurityConfig {
                 ));
                 configuration.setAllowCredentials(true);
             } else {
-                boolean hasWildcard = origins.stream().anyMatch(o -> o.contains("*"));
-                if (hasWildcard) {
-                    // allowedOriginPatterns supports credentials safely (unlike raw allowedOrigins("*"))
-                    // Spring validates that the Origin header matches the pattern before reflecting it
-                    configuration.setAllowedOriginPatterns(origins);
+                // Security: reject bare "*" — it allows any origin to make credentialed requests
+                boolean hasBareWildcard = origins.stream().anyMatch(o -> o.trim().equals("*"));
+                if (hasBareWildcard) {
+                    java.util.logging.Logger.getLogger("SecurityConfig")
+                        .warning("CORS_ALLOWED_ORIGINS contains bare '*'. "
+                            + "This is unsafe with credentials. Falling back to localhost defaults.");
+                    configuration.setAllowedOrigins(java.util.Arrays.asList(
+                        "http://localhost:5173",
+                        "http://localhost:3000",
+                        "http://localhost"
+                    ));
                 } else {
-                    configuration.setAllowedOrigins(origins);
+                    boolean hasPattern = origins.stream().anyMatch(o -> o.contains("*"));
+                    if (hasPattern) {
+                        // Specific patterns like https://*.example.com are safe with credentials
+                        configuration.setAllowedOriginPatterns(origins);
+                    } else {
+                        configuration.setAllowedOrigins(origins);
+                    }
                 }
                 configuration.setAllowCredentials(true);
             }
