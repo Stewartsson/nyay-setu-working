@@ -94,6 +94,114 @@ const OfflineToast = () => {
 };
 
 export default OfflineToast;
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { VitePWA } from 'vite-plugin-pwa';
+
+export default defineConfig({
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'], 
+        runtimeCaching: [
+          {
+            // Cache API GET requests for Nyay Saarthi backend
+            urlPattern: /^http:\/\/localhost:8080\/api\/.*$/i, 
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'api-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 60 * 24 // 1 day
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
+          }
+        ],
+        navigateFallback: '/offline.html'
+      },
+      manifest: {
+        name: 'Nyay Saarthi',
+        short_name: 'Nyay Setu',
+        description: 'A Digital Judiciary Platform for India',
+        theme_color: '#ffffff',
+        background_color: '#ffffff',
+        display: 'standalone',
+        icons: [
+          {
+            src: '/icon-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: '/icon-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      }
+    })
+  ]
+});
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline - Nyay Saarthi</title>
+  <style>
+    body { font-family: system-ui, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background-color: #f9fafb; color: #111827; text-align: center; }
+    button { background-color: #2563eb; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 0.375rem; cursor: pointer; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>⚠️ You are offline</h1>
+  <p>It seems you've lost your internet connection. Some features of Nyay Saarthi may be unavailable.</p>
+  <button onclick="window.location.reload()">Try Again</button>
+</body>
+</html>
+import React, { useState, useEffect } from 'react';
+
+const OfflineToast = () => {
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+
+  useEffect(() => {
+    const handleOnline = () => setIsOffline(false);
+    const handleOffline = () => setIsOffline(true);
+    
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
+  if (!isOffline) return null;
+
+  return (
+    <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#ef4444', color: 'white', padding: '12px 24px', borderRadius: '8px', zIndex: 9999 }}>
+      ⚠️ You are currently offline. Operating in offline mode.
+    </div>
+  );
+};
+
+export default OfflineToast;
+## Fixes Issue #128
+
+### What Changed:
+- Installed `vite-plugin-pwa` to manage Workbox service workers.
+- Configured `vite.config.js` to cache static assets and handle API responses with `StaleWhileRevalidate`.
+- Added a fallback `/offline.html` page for uncached navigations.
+- Implemented a non-intrusive `OfflineToast` React component to alert users of network drops.
+
+### Testing
+- Verified offline behavior via Chrome DevTools.
 <!-- backend/pom.xml -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
