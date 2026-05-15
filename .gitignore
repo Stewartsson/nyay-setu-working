@@ -59,6 +59,10 @@ __pycache__/
 logs/
 *.log
 
+# Python
+__pycache__/
+*.pyc
+
 # Database
 *.db
 *.sqlite
