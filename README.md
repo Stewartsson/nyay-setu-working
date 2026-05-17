@@ -135,7 +135,7 @@ For environment variables, copy `.env.example` to `.env` and fill in your values
 
 ## Contributing
 
-This project is part of **GSSoC (GirlScript Summer of Code) 2025**. Contributions are welcome from everyone, regardless of experience level.
+This project is part of **GSSoC (GirlScript Summer of Code) 2026**. Contributions are welcome from everyone, regardless of experience level.
 
 **Before opening a Pull Request:**
 
