@@ -198,7 +198,18 @@ async def legal_reasoning_pipeline(query: str, language: str):
 async def health():
     return {"status": "ok", "service": "nlp-orchestrator", "port": 8001}
 
-
+@app.get("/models")
+async def get_models():
+    return {
+        "groq": {
+            "model": GROQ_MODEL_FAST,
+            "available": bool(GROQ_API_KEY)
+        },
+        "gemini": {
+            "model": GEMINI_MODEL,
+            "available": bool(GEMINI_API_KEY)
+        }
+    }
 @app.post("/api/legal/analyze-stream")
 async def analyze_stream(body: LegalQuery, request: Request):
     """
