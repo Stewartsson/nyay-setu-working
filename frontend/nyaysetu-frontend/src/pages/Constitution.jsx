@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTheme } from '../contexts/ThemeContext';
 import { Search, BookOpen, Globe, Download, Bookmark, MessageCircle, Share2, X, BookmarkPlus, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +11,7 @@ import { brainAPI } from '../services/api';
 export default function Constitution() {
     const navigate = useNavigate();
     const { language, toggleLanguage, t } = useLanguage();
+    const { theme } = useTheme();
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedPart, setSelectedPart] = useState(null);
     const [selectedArticle, setSelectedArticle] = useState(null);
@@ -46,6 +48,55 @@ export default function Constitution() {
                             title: "Formation of new States and alteration of areas",
                             content: "Parliament may by law: (a) form a new State; (b) increase or diminish the area of any State; (c) alter the boundaries of any State; (d) alter the name of any State.",
                             keywords: ["formation", "boundaries", "areas"]
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "Part II - Citizenship",
+                    description: "Articles related to citizenship of India",
+                    articles: [
+                        {
+                            number: "5",
+                            title: "Citizenship at the commencement of the Constitution",
+                            content: "At the commencement of this Constitution, every person who has his domicile in the territory of India and who was born in the territory of India, or either of whose parents was born in the territory of India, or who has been ordinarily resident in the territory of India for not less than five years immediately preceding such commencement, shall be a citizen of India.",
+                            keywords: ["citizenship", "constitution", "domicile", "india"]
+                        },
+                        {
+                            number: "6",
+                            title: "Rights of citizenship of certain persons who have migrated from Pakistan to India",
+                            content: "A person who has migrated to the territory of India from Pakistan shall be deemed to be a citizen of India if he or either of his parents or grandparents was born in India as defined in the Government of India Act, 1935, and if certain conditions relating to migration and registration are fulfilled.",
+                            keywords: ["migration", "pakistan", "citizenship", "registration"]
+                        },
+                        {
+                            number: "7",
+                            title: "Rights of citizenship of certain migrants to Pakistan",
+                            content: "A person who has after the first day of March, 1947, migrated from the territory of India to Pakistan shall not be deemed to be a citizen of India unless he has returned to India under a permit for resettlement or permanent return.",
+                            keywords: ["migration", "pakistan", "permit", "citizenship"]
+                        },
+                        {
+                            number: "8",
+                            title: "Rights of citizenship of certain persons of Indian origin residing outside India",
+                            content: "Any person of Indian origin residing outside India who or either of whose parents or grandparents was born in India may register as a citizen of India through diplomatic or consular representatives of India in the country where they reside.",
+                            keywords: ["indian origin", "outside india", "citizenship", "registration"]
+                        },
+                        {
+                            number: "9",
+                            title: "Persons voluntarily acquiring citizenship of a foreign State not to be citizens",
+                            content: "No person shall be a citizen of India if he has voluntarily acquired the citizenship of any foreign State.",
+                            keywords: ["foreign state", "citizenship", "voluntary"]
+                        },
+                        {
+                            number: "10",
+                            title: "Continuance of the rights of citizenship",
+                            content: "Every person who is or is deemed to be a citizen of India under the foregoing provisions shall continue to be such citizen, subject to the provisions of any law made by Parliament.",
+                            keywords: ["rights", "citizenship", "parliament"]
+                        },
+                         {
+                            number: "11",
+                            title: "Parliament to regulate the right of citizenship by law",
+                            content: "Nothing in the foregoing provisions shall derogate from the power of Parliament to make any provision with respect to the acquisition and termination of citizenship and all other matters relating to citizenship.",
+                            keywords: ["parliament", "citizenship", "law", "termination"]
                         }
                     ]
                 },
@@ -138,6 +189,55 @@ export default function Constitution() {
                             title: "नए राज्यों का निर्माण और क्षेत्रों का परिवर्तन",
                             content: "संसद विधि द्वारा: (क) नया राज्य बना सकेगी; (ख) किसी राज्य के क्षेत्र को बढ़ा या घटा सकेगी; (ग) किसी राज्य की सीमाओं को बदल सकेगी; (घ) किसी राज्य का नाम बदल सकेगी।",
                             keywords: ["निर्माण", "सीमाएं", "क्षेत्र"]
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "भाग II - नागरिकता",
+                    description: "भारत की नागरिकता से संबंधित अनुच्छेद",
+                    articles: [
+                        {
+                            number: "5",
+                            title: "संविधान के प्रारंभ पर नागरिकता",
+                            content: "इस संविधान के प्रारंभ पर प्रत्येक व्यक्ति, जिसका भारत के राज्यक्षेत्र में अधिवास है और जो भारत के राज्यक्षेत्र में जन्मा था या जिसके माता या पिता में से कोई भारत के राज्यक्षेत्र में जन्मा था या जो ऐसे प्रारंभ से ठीक पहले कम से कम पाँच वर्ष तक भारत में सामान्य रूप से निवास कर रहा था, भारत का नागरिक होगा।",
+                            keywords: ["नागरिकता", "संविधान", "अधिवास", "भारत"]
+                        },
+                        {
+                            number: "6",
+                            title: "पाकिस्तान से भारत आए कुछ व्यक्तियों के नागरिकता के अधिकार",
+                            content: "जो व्यक्ति पाकिस्तान से भारत आया है, वह भारत का नागरिक माना जाएगा यदि वह या उसके माता-पिता या दादा-दादी में से कोई भारत में जन्मा था तथा प्रव्रजन और पंजीकरण से संबंधित शर्तें पूरी करता हो।",
+                            keywords: ["प्रव्रजन", "पाकिस्तान", "नागरिकता", "पंजीकरण"]
+                        },
+                        {
+                            number: "7",
+                            title: "पाकिस्तान जाने वाले कुछ प्रवासियों के नागरिकता के अधिकार",
+                            content: "जो व्यक्ति 1 मार्च 1947 के बाद भारत से पाकिस्तान चला गया है, वह भारत का नागरिक नहीं माना जाएगा, जब तक कि वह पुनर्वास या स्थायी वापसी के परमिट के अंतर्गत भारत वापस न आया हो।",
+                            keywords: ["प्रवास", "पाकिस्तान", "परमिट", "नागरिकता"]
+                        },
+                        {
+                            number: "8",
+                            title: "भारत के बाहर रहने वाले भारतीय मूल के कुछ व्यक्तियों के नागरिकता के अधिकार",
+                            content: "भारत के बाहर रहने वाला भारतीय मूल का कोई व्यक्ति, जिसके माता-पिता या दादा-दादी में से कोई भारत में जन्मा था, उस देश में भारत के राजनयिक या वाणिज्य दूतावास प्रतिनिधि के समक्ष पंजीकरण कराकर भारत का नागरिक बन सकता है।",
+                            keywords: ["भारतीय मूल", "विदेश", "नागरिकता", "पंजीकरण"]
+                        },
+                        {
+                            number: "9",
+                            title: "विदेशी राज्य की नागरिकता स्वेच्छा से ग्रहण करने वाले व्यक्ति भारत के नागरिक नहीं होंगे",
+                            content: "यदि किसी व्यक्ति ने स्वेच्छा से किसी विदेशी राज्य की नागरिकता ग्रहण कर ली है, तो वह भारत का नागरिक नहीं होगा।",
+                            keywords: ["विदेशी राज्य", "नागरिकता", "स्वेच्छा"]
+                        },
+                        {
+                            number: "10",
+                            title: "नागरिकता के अधिकारों का बना रहना",
+                            content: "जो व्यक्ति उपर्युक्त उपबंधों के अधीन भारत का नागरिक है या माना गया है, वह संसद द्वारा बनाई गई विधि के अधीन नागरिक बना रहेगा।",
+                            keywords: ["अधिकार", "नागरिकता", "संसद"]
+                        },  
+                        {   
+                           number: "11",
+                            title: "संसद द्वारा नागरिकता के अधिकार का विनियमन",
+                            content: "उपर्युक्त उपबंध संसद की उस शक्ति को प्रभावित नहीं करेंगे जिसके द्वारा वह नागरिकता के अर्जन और समाप्ति तथा नागरिकता से संबंधित अन्य विषयों पर विधि बना सके।",
+                            keywords: ["संसद", "नागरिकता", "विधि", "समाप्ति"]
                         }
                     ]
                 },
@@ -252,19 +352,22 @@ export default function Constitution() {
     };
 
     return (
-        <div style={{ minHeight: '100vh', background: '#FFFFFF' }}>
+        <div style={{ minHeight: '100vh', background: 'var(--bg-main)', position: 'relative' }}>
             <Header />
 
-            <div style={{ maxWidth: '1600px', margin: '0 auto', padding: '6rem 2rem 4rem' }}>
-                {/* Enhanced Page Header */}
+            {/* geometric grid pattern — same as Landing hero */}
+            <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none', backgroundImage: `linear-gradient(rgba(124,92,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(124,92,255,0.03) 1px, transparent 1px)`, backgroundSize: '60px 60px' }} />
+            <div style={{ maxWidth: '1600px', margin: '0 auto', padding: '6rem 2rem 4rem', position: 'relative', zIndex: 1 }}>
+                {/* Page Header */}
                 <div style={{
                     padding: '3rem',
-                    background: 'rgba(255, 255, 255, 0.9)',
+                    background: 'var(--bg-glass)',
                     backdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(226, 232, 240, 0.8)',
+                    WebkitBackdropFilter: 'blur(20px)',
+                    border: '1px solid var(--border-light)',
                     borderRadius: '2rem',
                     marginBottom: '3rem',
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
+                    boxShadow: 'var(--shadow-glass)'
                 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '2rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
@@ -340,10 +443,10 @@ export default function Constitution() {
                                 onClick={() => setShowAIChat(!showAIChat)}
                                 style={{
                                     padding: '0.75rem 1.5rem',
-                                    background: showAIChat ? 'var(--color-primary)' : '#FFFFFF',
-                                    border: showAIChat ? '2px solid var(--color-primary)' : '1px solid #E2E8F0',
+                                    background: showAIChat ? 'var(--color-primary)' : 'var(--bg-surface)',
+                                    border: showAIChat ? '2px solid var(--color-primary)' : '1px solid var(--border-medium)',
                                     borderRadius: '0.75rem',
-                                    color: showAIChat ? '#FFFFFF' : 'var(--color-primary)',
+                                    color: showAIChat ? '#FFFFFF' : 'var(--text-main)',
                                     cursor: 'pointer',
                                     display: 'flex',
                                     alignItems: 'center',
@@ -378,22 +481,22 @@ export default function Constitution() {
                             style={{
                                 width: '100%',
                                 padding: '1.5rem 1.5rem 1.5rem 4.5rem',
-                                background: '#FFFFFF',
-                                border: '1px solid #E2E8F0',
+                                background: 'var(--bg-input)',
+                                border: '1px solid var(--border-light)',
                                 borderRadius: '1.5rem',
                                 color: 'var(--text-main)',
                                 fontSize: '1.125rem',
                                 outline: 'none',
                                 transition: 'all 0.3s',
-                                boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+                                boxShadow: 'var(--shadow-sm)'
                             }}
                             onFocus={(e) => {
-                                e.target.style.borderColor = 'var(--color-primary)';
-                                e.target.style.boxShadow = '0 0 0 3px rgba(30, 42, 68, 0.1)';
+                                e.target.style.borderColor = 'var(--border-focus)';
+                                e.target.style.boxShadow = '0 0 0 3px rgba(63,93,204,0.12)';
                             }}
                             onBlur={(e) => {
-                                e.target.style.borderColor = '#E2E8F0';
-                                e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
+                                e.target.style.borderColor = 'var(--border-light)';
+                                e.target.style.boxShadow = 'var(--shadow-sm)';
                             }}
                         />
                     </div>
@@ -412,10 +515,10 @@ export default function Constitution() {
                                     onClick={() => setSelectedArticle(null)}
                                     style={{
                                         padding: '0.75rem 1.5rem',
-                                        background: 'rgba(30, 42, 68, 0.08)',
-                                        border: '1px solid rgba(30, 42, 68, 0.1)',
+                                        background: 'var(--bg-hover)',
+                                        border: '1px solid var(--border-light)',
                                         borderRadius: '0.75rem',
-                                        color: 'var(--color-primary)',
+                                        color: 'var(--text-main)',
                                         cursor: 'pointer',
                                         marginBottom: '2rem',
                                         fontWeight: '700',
@@ -427,10 +530,10 @@ export default function Constitution() {
 
                                 <div style={{
                                     padding: '3rem',
-                                    background: '#FFFFFF',
+                                    background: 'var(--bg-surface)',
                                     borderRadius: '2rem',
-                                    border: '1px solid #E2E8F0',
-                                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
+                                    border: '1px solid var(--border-light)',
+                                    boxShadow: 'var(--shadow-glass)'
                                 }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '2rem' }}>
                                         <span style={{
@@ -509,10 +612,10 @@ export default function Constitution() {
                                     onClick={() => setSelectedPart(null)}
                                     style={{
                                         padding: '0.75rem 1.5rem',
-                                        background: 'rgba(30, 42, 68, 0.08)',
-                                        border: '1px solid rgba(30, 42, 68, 0.1)',
+                                        background: 'var(--bg-hover)',
+                                        border: '1px solid var(--border-light)',
                                         borderRadius: '0.75rem',
-                                        color: 'var(--color-primary)',
+                                        color: 'var(--text-main)',
                                         cursor: 'pointer',
                                         marginBottom: '2rem',
                                         fontWeight: '700',
@@ -524,11 +627,11 @@ export default function Constitution() {
 
                                 <div style={{
                                     padding: '2rem',
-                                    background: '#FFFFFF',
+                                    background: 'var(--bg-surface)',
                                     borderRadius: '1.5rem',
                                     marginBottom: '2rem',
-                                    border: '1px solid #E2E8F0',
-                                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
+                                    border: '1px solid var(--border-light)',
+                                    boxShadow: 'var(--shadow-glass)'
                                 }}>
                                     <h2 style={{ color: 'var(--color-primary)', fontSize: '2.5rem', fontWeight: '900', marginBottom: '0.5rem' }}>
                                         {selectedPart.title}
@@ -549,20 +652,20 @@ export default function Constitution() {
                                             whileHover={{ x: 8 }}
                                             style={{
                                                 padding: '2rem',
-                                                background: '#FFFFFF',
+                                                background: 'var(--bg-surface)',
                                                 borderRadius: '1.5rem',
-                                                border: '1px solid #E2E8F0',
+                                                border: '1px solid var(--border-light)',
                                                 cursor: 'pointer',
                                                 transition: 'all 0.3s',
-                                                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)'
+                                                boxShadow: 'var(--shadow-sm)'
                                             }}
                                             onMouseEnter={(e) => {
-                                                e.currentTarget.style.borderColor = 'var(--color-primary)';
-                                                e.currentTarget.style.boxShadow = '0 10px 40px rgba(30, 42, 68, 0.1)';
+                                                e.currentTarget.style.borderColor = 'var(--border-focus)';
+                                                e.currentTarget.style.boxShadow = 'var(--shadow-hover)';
                                             }}
                                             onMouseLeave={(e) => {
-                                                e.currentTarget.style.borderColor = '#E2E8F0';
-                                                e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.05)';
+                                                e.currentTarget.style.borderColor = 'var(--border-light)';
+                                                e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
                                             }}
                                         >
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1rem' }}>
@@ -620,22 +723,22 @@ export default function Constitution() {
                                         onClick={() => setSelectedPart(part)}
                                         style={{
                                             padding: '2.5rem',
-                                            background: '#FFFFFF',
+                                            background: 'var(--bg-surface)',
                                             borderRadius: '1.5rem',
-                                            border: '1px solid #E2E8F0',
+                                            border: '1px solid var(--border-light)',
                                             cursor: 'pointer',
                                             transition: 'all 0.3s',
                                             position: 'relative',
                                             overflow: 'hidden',
-                                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
+                                            boxShadow: 'var(--shadow-sm)'
                                         }}
                                         onMouseEnter={(e) => {
-                                            e.currentTarget.style.borderColor = 'var(--color-primary)';
-                                            e.currentTarget.style.boxShadow = '0 20px 50px rgba(30, 42, 68, 0.2)';
+                                            e.currentTarget.style.borderColor = 'var(--border-focus)';
+                                            e.currentTarget.style.boxShadow = 'var(--shadow-hover)';
                                         }}
                                         onMouseLeave={(e) => {
-                                            e.currentTarget.style.borderColor = '#E2E8F0';
-                                            e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.05)';
+                                            e.currentTarget.style.borderColor = 'var(--border-light)';
+                                            e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
                                         }}
                                     >
                                         <div style={{
@@ -643,7 +746,6 @@ export default function Constitution() {
                                             top: '1rem',
                                             right: '1rem',
                                             padding: '0.5rem 1rem',
-                                            background: 'rgba(30, 42, 68, 0.05)',
                                             border: '1px solid rgba(30, 42, 68, 0.1)',
                                             borderRadius: '0.75rem',
                                             fontSize: '0.85rem',
@@ -689,13 +791,13 @@ export default function Constitution() {
                             >
                                 <div style={{
                                     padding: '2rem',
-                                    background: '#FFFFFF',
+                                    background: 'var(--bg-surface)',
                                     borderRadius: '1.5rem',
-                                    border: '1px solid #E2E8F0',
+                                    border: '1px solid var(--border-light)',
                                     display: 'flex',
                                     flexDirection: 'column',
                                     gap: '1.5rem',
-                                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
+                                    boxShadow: 'var(--shadow-glass)'
                                 }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <h3 style={{ color: 'var(--color-primary)', fontSize: '1.5rem', fontWeight: '800', margin: 0 }}>
@@ -720,9 +822,9 @@ export default function Constitution() {
 
                                     <div style={{
                                         padding: '1.5rem',
-                                        background: 'rgba(30, 42, 68, 0.05)',
+                                        background: 'var(--bg-hover)',
                                         borderRadius: '1rem',
-                                        border: '1px solid rgba(30, 42, 68, 0.2)'
+                                        border: '1px solid var(--border-light)'
                                     }}>
                                         <p style={{ color: '#94a3b8', fontSize: '0.9rem', margin: 0 }}>
                                             {language === 'en'
@@ -740,15 +842,16 @@ export default function Constitution() {
                                         placeholder={t('typeMessage')}
                                         style={{
                                             padding: '1rem',
-                                            background: '#F8FAFC',
-                                            border: '1px solid #E2E8F0',
+                                            background: 'var(--bg-input)',
+                                            border: '1px solid var(--border-light)',
                                             borderRadius: '0.75rem',
                                             color: 'var(--text-main)',
                                             fontSize: '1rem',
-                                            outline: 'none'
+                                            outline: 'none',
+                                            width: '100%'
                                         }}
-                                        onFocus={(e) => e.target.style.borderColor = 'var(--color-primary)'}
-                                        onBlur={(e) => e.target.style.borderColor = '#E2E8F0'}
+                                        onFocus={(e) => e.target.style.borderColor = 'var(--border-focus)'}
+                                        onBlur={(e) => e.target.style.borderColor = 'var(--border-light)'}
                                     />
 
                                     <button
@@ -788,9 +891,9 @@ export default function Constitution() {
                                         <div style={{
                                             marginTop: '1rem',
                                             padding: '1.5rem',
-                                            background: '#F8FAFC',
+                                            background: 'var(--bg-hover)',
                                             borderRadius: '1rem',
-                                            border: '1px solid #E2E8F0'
+                                            border: '1px solid var(--border-light)'
                                         }}>
                                             <div style={{ display: 'flex', alignItems: 'start', gap: '1rem' }}>
                                                 <MessageCircle size={24} style={{ color: 'var(--color-primary)', flexShrink: 0 }} />
@@ -812,10 +915,11 @@ export default function Constitution() {
                                     <div style={{
                                         marginTop: '1.5rem',
                                         padding: '1.5rem',
-                                        background: 'rgba(30, 42, 68, 0.05)',
-                                        backdropFilter: 'blur(20px)',
+                                        background: 'var(--bg-glass)',
+                                        backdropFilter: 'blur(12px)',
+                                        WebkitBackdropFilter: 'blur(12px)',
                                         borderRadius: '1.5rem',
-                                        border: '1px solid rgba(30, 42, 68, 0.1)'
+                                        border: '1px solid var(--border-light)'
                                     }}>
                                         <h4 style={{ color: 'var(--color-primary)', fontSize: '1.25rem', fontWeight: '800', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                                             <Bookmark size={20} fill="var(--color-primary)" color="var(--color-primary)" />

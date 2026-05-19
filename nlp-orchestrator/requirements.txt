@@ -11,4 +11,15 @@ psycopg2-binary
 aiohttp
 Pillow
 pytest
+pytest-asyncio
+pytest-mock
+transformers
+torch
+torchvision
+datasets
+accelerate
+sentencepiece
+protobuf
+python-multipart
+pytest
 

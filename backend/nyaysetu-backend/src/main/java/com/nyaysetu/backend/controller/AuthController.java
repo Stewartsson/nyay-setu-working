@@ -20,7 +20,9 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Authentication", description = "Register, login, password reset and face login")
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -77,7 +79,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest req) {
-        System.out.println("DEBUG: LOGIN ENDPOINT REACHED for email: " + req.getEmail());
+        log.debug("Login endpoint reached for email: {}", req.getEmail());
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword())
