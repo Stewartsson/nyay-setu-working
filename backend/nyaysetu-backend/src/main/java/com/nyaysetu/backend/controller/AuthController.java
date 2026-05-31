@@ -153,7 +153,7 @@ public class AuthController {
 
     @SecurityRequirements
     @PostMapping("/forgot-password")
-    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordRequest req) {
+    public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequest req) {
         try {
             emailService.sendPasswordResetEmail(req.getEmail());
             return ResponseEntity.ok(Map.of(
@@ -190,7 +190,7 @@ public class AuthController {
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequest req) {
+    public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest req) {
         try {
             PasswordResetToken resetToken = tokenRepository.findByToken(req.getToken())
                     .orElseThrow(() -> new RuntimeException("Invalid token"));
@@ -223,7 +223,7 @@ public class AuthController {
     // ==================== FACE LOGIN ENDPOINTS ====================
 
     @PostMapping("/face/enroll")
-    public ResponseEntity<?> enrollFace(@RequestBody FaceEnrollRequest req) {
+    public ResponseEntity<?> enrollFace(@Valid @RequestBody FaceEnrollRequest req) {
         try {
             faceRecognitionService.enrollFace(req.getUserId(), req.getFaceDescriptor());
             return ResponseEntity.ok(Map.of("message", "Face enrolled successfully"));
@@ -234,7 +234,7 @@ public class AuthController {
     }
 
     @PostMapping("/face/login")
-    public ResponseEntity<?> loginWithFace(@RequestBody FaceLoginRequest req) {
+    public ResponseEntity<?> loginWithFace(@Valid @RequestBody FaceLoginRequest req) {
         try {
             User user = faceRecognitionService.verifyFace(req.getEmail(), req.getFaceDescriptor());
 
