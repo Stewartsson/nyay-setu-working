@@ -36,7 +36,7 @@
     "remark-gfm": "^4.0.1",
     "simple-peer": "^9.11.1",
     "socket.io-client": "^4.8.1",
-    "three": "^0.181.2",
+    "three": "^0.184.0",
     "vite-plugin-pwa": "^1.2.0",
     "zustand": "^5.0.14"
   },
