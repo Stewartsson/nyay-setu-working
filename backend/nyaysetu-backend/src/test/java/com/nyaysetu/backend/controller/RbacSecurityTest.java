@@ -35,7 +35,7 @@ public class RbacSecurityTest {
     @Test
     @WithMockUser(username = "litigant@example.com", roles = {"LITIGANT"})
     public void shouldAllowLitigantAccessToOwnCases() throws Exception {
-        mockMvc.perform(get("/api/v1/litigant/cases"))
+        mockMvc.perform(get("/api/v1/cases"))
                 .andExpect(status().isOk());
-    }
+}
 }
