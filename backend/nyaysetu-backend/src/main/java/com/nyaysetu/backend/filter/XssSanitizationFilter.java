@@ -47,6 +47,11 @@ public class XssSanitizationFilter extends OncePerRequestFilter {
         }
 
         private byte[] sanitizeBody(HttpServletRequest request) throws IOException {
+            int contentLength = request.getContentLength();
+            if (contentLength == 0 || contentLength == -1) {
+                return new byte[0];
+            }
+
             String contentType = request.getContentType();
             if (contentType != null && (contentType.contains("multipart") || contentType.contains("octet-stream"))) {
                 String originalBody;
