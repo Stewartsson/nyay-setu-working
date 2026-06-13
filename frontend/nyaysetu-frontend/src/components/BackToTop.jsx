@@ -4,6 +4,7 @@ export default function BackToTop() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+      // Throttle scroll updates using requestAnimationFrame for performance
     const onScroll = () => {
         requestAnimationFrame(() => setVisible(window.scrollY > 300));
     };
@@ -16,6 +17,7 @@ export default function BackToTop() {
   return (
     <button
       className="back-to-top-btn"
+      // Smooth scroll back to top of pagegit
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       style={{
         position: "fixed",
