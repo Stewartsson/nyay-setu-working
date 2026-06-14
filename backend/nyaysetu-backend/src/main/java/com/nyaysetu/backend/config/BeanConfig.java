@@ -20,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
  * Read timeout    : 30s — allow enough time for LLM inference (Groq p50 ~8s)
  */
 @Configuration
-public class RestTemplateConfig {
+public class BeanConfig {
 
     @Bean
     public RestTemplate restTemplate() {
