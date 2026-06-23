@@ -1,10 +1,14 @@
 package com.nyaysetu.backend.controller;
 
 import com.nyaysetu.backend.dto.LawyerDTO;
+import com.nyaysetu.backend.dto.LawyerProposalRequest;
+import com.nyaysetu.backend.dto.ProposalResponseRequest;
+import com.nyaysetu.backend.dto.CognizanceRequest;
 import com.nyaysetu.backend.entity.CaseEntity;
 import com.nyaysetu.backend.entity.User;
 import com.nyaysetu.backend.service.CaseAssignmentService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -71,11 +75,10 @@ public class CaseAssignmentController {
     @PostMapping("/{caseId}/propose-lawyer")
     public ResponseEntity<Map<String, Object>> proposeLawyer(
             @PathVariable UUID caseId,
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody LawyerProposalRequest request
     ) {
         try {
-            Long lawyerId = Long.parseLong(request.get("lawyerId").toString());
-            caseAssignmentService.proposeLawyerToCase(caseId, lawyerId);
+            caseAssignmentService.proposeLawyerToCase(caseId, request.getLawyerId());
             
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
@@ -98,11 +101,10 @@ public class CaseAssignmentController {
     @PostMapping("/{caseId}/respond-proposal")
     public ResponseEntity<Map<String, Object>> respondProposal(
             @PathVariable UUID caseId,
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody ProposalResponseRequest request
     ) {
         try {
-            String status = request.get("status").toString();
-            caseAssignmentService.respondToLawyerProposal(caseId, status);
+            caseAssignmentService.respondToLawyerProposal(caseId, request.getStatus());
             
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
@@ -138,15 +140,17 @@ public class CaseAssignmentController {
         return ResponseEntity.ok(workload);
     }
 
+    /**
+     * Take cognizance for a case
+     */
     @PreAuthorize("hasAnyRole('JUDGE', 'SUPER_JUDGE', 'ADMIN')")
     @PostMapping("/{caseId}/take-cognizance")
     public ResponseEntity<Map<String, Object>> takeCognizance(
             @PathVariable UUID caseId,
-            @RequestBody Map<String, Object> request
+            @Valid @RequestBody CognizanceRequest request
     ) {
         try {
-            Long judgeId = Long.parseLong(request.get("judgeId").toString());
-            caseAssignmentService.takeCognizance(caseId, judgeId);
+            caseAssignmentService.takeCognizance(caseId, request.getJudgeId());
 
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
@@ -162,7 +166,9 @@ public class CaseAssignmentController {
         }
     }
 
-
+    /**
+     * Update summons status
+     */
     @PreAuthorize("hasAnyRole('POLICE', 'JUDGE', 'SUPER_JUDGE', 'ADMIN')")
     @PostMapping("/{caseId}/update-summons")
     public ResponseEntity<Map<String, Object>> updateSummons(
@@ -178,6 +184,9 @@ public class CaseAssignmentController {
         }
     }
 
+    /**
+     * Update document status
+     */
     @PreAuthorize("hasAnyRole('JUDGE', 'LAWYER', 'ADMIN')")
     @PostMapping("/{caseId}/document-status")
     public ResponseEntity<Map<String, Object>> updateDocumentStatus(
@@ -186,7 +195,6 @@ public class CaseAssignmentController {
     ) {
         try {
             String statusStr = request.get("status");
-            // Assuming DocumentStatus enum is available or imported
             com.nyaysetu.backend.entity.DocumentStatus status = com.nyaysetu.backend.entity.DocumentStatus.valueOf(statusStr);
             caseAssignmentService.updateDocumentStatus(caseId, status);
             return ResponseEntity.ok(Map.of("success", true, "message", "Document status updated"));
