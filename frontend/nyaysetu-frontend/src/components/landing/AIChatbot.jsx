@@ -56,7 +56,9 @@ export default function AIChatbot() {
     } catch (error) {
   const errorResponse = {
     role: "assistant",
-    content: getErrorMessage(error),
+    content: !error.response
+      ? "Unable to connect to the AI service right now. Please try again later."
+      : getErrorMessage(error),
   };
 
   setMessages((prev) => [...prev, errorResponse]);

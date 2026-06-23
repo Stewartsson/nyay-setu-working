@@ -4,9 +4,8 @@ export const getErrorMessage = (error) => {
     }
 
     if (!error.response) {
-        console.error("Request failed:", error);
-        return "AI service is currently unavailable. Please try again later.";
-    }
+    return "Network error. Please check your internet connection.";
+}
 
     switch (error.response.status) {
         case 400:
