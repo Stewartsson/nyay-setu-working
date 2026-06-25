@@ -47,6 +47,7 @@ export default function Footer() {
         { label: t('common:header.nav.constitution'), href: '/constitution', isRoute: true },
         { label: t('common:header.nav.aiAssistant'), action: () => setShowAIModal(true) },
         { label: t('common:header.nav.about'), href: '/about', isRoute: true },
+        { label: t('common:header.nav.contact'), href: '/contact', isRoute: true },
         { label: 'FAQ', href: '/faq', isRoute: true }
     ];
 
@@ -434,6 +435,50 @@ export default function Footer() {
                             {t('landing:footer.getInTouch')}
                         </h3>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                            <Link
+                                to="/contact"
+                                style={{
+                                    color: 'rgba(255, 255, 255, 0.7)',
+                                    textDecoration: 'none',
+                                    fontSize: '0.95rem',
+                                    transition: 'all 0.3s ease',
+                                    position: 'relative',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.color = 'white';
+                                    e.currentTarget.style.transform = 'translateX(5px)';
+                                    e.currentTarget.style.textShadow =
+                                        '0 0 10px rgba(255,255,255,0.4)';
+                                    const icon = e.currentTarget.querySelector('.contact-icon');
+                                    if (icon) {
+                                        icon.style.transform = 'scale(1.15)';
+                                        icon.style.filter = 'drop-shadow(0 0 8px #8b5cf6)';
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.color =
+                                        'rgba(255,255,255,0.7)';
+                                    e.currentTarget.style.transform =
+                                        'translateX(0)';
+                                    e.currentTarget.style.textShadow = 'none';
+                                    const icon = e.currentTarget.querySelector('.contact-icon');
+                                    if (icon) {
+                                        icon.style.transform = 'scale(1)';
+                                        icon.style.filter = 'none';
+                                    }
+                                }}
+                            >
+                                <span className="contact-icon" style={{
+                                    display: 'inline-flex',
+                                    transition: 'transform 0.3s ease'
+                                }}>
+                                    <FaEnvelope size={16} />
+                                </span>
+                                {t('common:header.nav.contact')}
+                            </Link>
                             <a
                                 href="mailto:gadekarvidera4@gmail.com"
                                 style={{
