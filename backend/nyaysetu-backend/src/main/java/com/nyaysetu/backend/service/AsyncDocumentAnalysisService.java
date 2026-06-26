@@ -2,6 +2,7 @@ package com.nyaysetu.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -12,6 +13,7 @@ import java.util.Map;
 /**
  * Service handling background execution pools for AI workloads.
  * Decouples heavy inter-service REST processing from the main HTTP Tomcat pools.
+ * Hardened: Dynamically injects external service endpoints via environment profiles.
  */
 @Service
 @RequiredArgsConstructor
@@ -19,7 +21,9 @@ import java.util.Map;
 public class AsyncDocumentAnalysisService {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private final String pythonAIUrl = "https://onrender.com";
+
+    @Value("${ai.orchestrator.url}")
+    private String pythonAIUrl;
 
     /**
      * Executes the heavy computational AI analysis inside a separate background worker thread.
