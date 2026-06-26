@@ -9,6 +9,7 @@ import ScrollToTop from './ScrollToTop';
 import BackToTop from './components/BackToTop';
 import './styles/accessibility.css';
 import ScrollProgressBar from './components/ScrollProgressBar';
+import ScrollButtons from "./components/ScrollButtons";
 
 // PWA Components
 import OfflineIndicator from './components/OfflineIndicator';
@@ -337,7 +338,8 @@ function App({ swRegistration }) {
                     </BrowserRouter>
                 </LanguageProvider>
             </ErrorBoundary>
-        </ThemeProvider>
+        <ScrollButtons />
+    </ThemeProvider>
     );
 }
 
