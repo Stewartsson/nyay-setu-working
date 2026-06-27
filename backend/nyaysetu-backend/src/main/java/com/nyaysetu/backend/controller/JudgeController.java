@@ -130,7 +130,7 @@ public class JudgeController {
     }
     @GetMapping("/unassigned")
     public ResponseEntity<?> getUnassignedCases() {
-        return ResponseEntity.ok(caseRepository.findUnassignedCases());
+        return ResponseEntity.ok(caseRepository.findByAssignedJudgeIsNull());
     }
 
     @GetMapping("/analytics")
@@ -138,7 +138,7 @@ public class JudgeController {
         User judge = authService.findByEmail(authentication.getName());
         List<CaseEntity> myCases = caseRepository.findByAssignedJudge(judge.getName());
         long assignedCount = myCases.size();
-        long unassignedCount = caseRepository.findUnassignedCases().size();
+        long unassignedCount = caseRepository.findByJudgeIdIsNull().size();
         
         // Compute real stats from myCases
         long pending = myCases.stream().filter(c -> "NEW".equals(c.getStatus().toString())).count();

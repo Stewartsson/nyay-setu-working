@@ -56,6 +56,7 @@ const Terms = retryLazy(() => import('./pages/Terms'));
 const Disclaimer = retryLazy(() => import('./pages/Disclaimer'));
 const UpcomingFeatures = retryLazy(() => import('./pages/UpcomingFeatures'));
 const FAQ = retryLazy(() => import('./pages/FAQ'));
+const Contact = retryLazy(() => import('./pages/Contact'));
 import OAuthSuccess from './pages/OAuthSuccess';
 
 // Dashboard Layout
@@ -242,6 +243,7 @@ function App({ swRegistration }) {
                                 <Route path="/disclaimer" element={<Disclaimer />} />
                                 <Route path="/upcoming-features" element={<UpcomingFeatures />} />
                                 <Route path="/faq" element={<FAQ />} />
+                                <Route path="/contact" element={<Contact />} />
 
                                 {/* Litigant Functional Core */}
                                 <Route path="/litigant/*" element={

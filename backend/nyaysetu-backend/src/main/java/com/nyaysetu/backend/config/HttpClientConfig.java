@@ -1,15 +1,17 @@
 package com.nyaysetu.backend.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Configuration
 public class HttpClientConfig {
@@ -30,8 +32,8 @@ public class HttpClientConfig {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         RestTemplate restTemplate = builder
-                .setConnectTimeout(Duration.ofMillis(connectTimeout))
-                .setReadTimeout(Duration.ofMillis(readTimeout))
+                .connectTimeout(Duration.ofMillis(connectTimeout))
+                .readTimeout(Duration.ofMillis(readTimeout))
                 .build();
 
         // Enforce fallback request factory properties explicitly
@@ -52,7 +54,8 @@ public class HttpClientConfig {
             while (attempt < maxRetries) {
                 try {
                     response = execution.execute(request, body);
-                    if (response.getStatusCode().is2xxSuccessful() || !request.getMethod().isIdempotent()) {
+                    boolean isIdempotent = isIdempotentMethod(request.getMethod());
+                    if (response.getStatusCode().is2xxSuccessful() || !isIdempotent) {
                         return response;
                     }
                 } catch (Exception e) {
@@ -67,5 +70,18 @@ public class HttpClientConfig {
         restTemplate.setInterceptors(interceptors);
 
         return restTemplate;
+    }
+
+    /**
+     * GET, HEAD, PUT, DELETE, OPTIONS, and TRACE are idempotent by HTTP spec.
+     * POST and PATCH are not, so we never auto-retry them.
+     */
+    private boolean isIdempotentMethod(HttpMethod method) {
+        return method == HttpMethod.GET
+                || method == HttpMethod.HEAD
+                || method == HttpMethod.PUT
+                || method == HttpMethod.DELETE
+                || method == HttpMethod.OPTIONS
+                || method == HttpMethod.TRACE;
     }
 }
