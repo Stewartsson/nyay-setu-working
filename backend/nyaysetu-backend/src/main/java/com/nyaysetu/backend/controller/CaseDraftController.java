@@ -17,7 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
+import com.nyaysetu.backend.entity.User;
+import com.nyaysetu.backend.repository.UserRepository;
 /**
  * REST Controller implementing critical trust-boundary controls. Separates unverified 
  * AI narrative collection drafts from explicit authenticated user confirmation actions.
@@ -28,7 +29,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "*")
 @Slf4j
 public class CaseDraftController {
-
+    private final UserRepository userRepository;
     private final CaseDraftRepository caseDraftRepository;
     private final CaseRepository caseRepository;
 
@@ -106,7 +107,7 @@ public class CaseDraftController {
             log.warn("[SecurityGuard] Aborted filing workflow: Required structural metrics missing across Draft ID: {}", draftId);
             responseMetadata.put("success", false);
             responseMetadata.put("message", "Filing Rejected: Structural draft fields must be complete before manual user confirmation.");
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(responseMetadata);
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_CONTENT).body(responseMetadata);
         }
 
         try {
@@ -117,9 +118,12 @@ public class CaseDraftController {
 
             // 5. Build and transition into a permanent, canonical judiciary court CaseEntity
             CaseEntity officialCaseRecord = new CaseEntity();
-            officialCaseRecord.setCitizenId(targetDraft.getCitizenId());
-            officialCaseRecord.setPetitionType(targetDraft.getCaseType());
-            officialCaseRecord.setFactualSummary(String.format(
+            User citizen = userRepository.findByEmail(targetDraft.getCitizenId())
+                    .orElseThrow(() -> new IllegalStateException(
+                            "Citizen user not found for ID: " + targetDraft.getCitizenId()));
+            officialCaseRecord.setClient(citizen);
+            officialCaseRecord.setCaseType(targetDraft.getCaseType());
+            officialCaseRecord.setDescription(String.format(
                     "VERIFIED PETITIONER: %s | RESPONDENT: %s | JURISDICTION: %s | FACTS: %s",
                     targetDraft.getPetitionerName(),
                     targetDraft.getRespondentName(),
