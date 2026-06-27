@@ -2,6 +2,7 @@ package com.nyaysetu.backend.service;
 
 import com.nyaysetu.backend.dto.LawyerDTO;
 import com.nyaysetu.backend.entity.CaseEntity;
+import com.nyaysetu.backend.entity.CaseStatus;
 import com.nyaysetu.backend.entity.User;
 import com.nyaysetu.backend.repository.CaseRepository;
 import com.nyaysetu.backend.repository.UserRepository;
@@ -16,7 +17,8 @@ import java.util.stream.Collectors;
 /**
  * Service to manage case routing and attorney allocations.
  * Hardened to dynamically calculate real lawyer profile statistics,
- * case ingestion tracking counters, and true database-backed review indexes.
+ * case ingestion tracking counters, and true database-backed review indexes
+ * while preserving core case routing endpoints.
  */
 @Service
 @RequiredArgsConstructor
@@ -81,4 +83,59 @@ public class CaseAssignmentService {
             throw new RuntimeException("Metadata calculation pipeline exception: " + e.getMessage());
         }
     }
+
+    /**
+     * RESTORED METHOD: Automatically routes an incoming case payload to an available judge entity.
+     */
+    public void autoAssignJudge(CaseEntity caseEntity) {
+        log.info("[CaseRouting] Initializing automated judiciary assignment sequence for Case ID: {}", caseEntity.getId());
+        try {
+            List<User> judges = userRepository.findAll().stream()
+                    .filter(user -> user.getRole() != null && "JUDGE".equalsIgnoreCase(user.getRole().toString()))
+                    .collect(Collectors.toList());
+            
+            if (!judges.isEmpty()) {
+                User assignedJudge = judges.get(0);
+                caseEntity.setJudgeId(assignedJudge.getId().toString());
+                log.info("[CaseRouting] Case ID {} successfully linked to Judge ID: {}", caseEntity.getId(), assignedJudge.getId());
+            } else {
+                log.warn("[CaseRouting] Zero active judge registries resolved. Leaving routing parameter pending.");
+            }
+        } catch (Exception e) {
+            log.error("[CaseRouting] Automated judge matching process exception encountered:", e);
+        }
+    }
+
+    /**
+     * RESTORED METHOD: Transitions case state vectors into active judicial cognizance cycles.
+     */
+    public void takeCognizance(Long caseId) {
+        log.info("[CaseRouting] Triggering explicit judiciary cognizance flag updates for Case ID: {}", caseId);
+        try {
+            caseRepository.findById(caseId).ifPresent(caseRecord -> {
+                caseRecord.setStatus(CaseStatus.UNDER_REVIEW);
+                caseRepository.save(caseRecord);
+                log.info("[CaseRouting] Case ID {} status successfully updated to UNDER_REVIEW state profiles.", caseId);
+            });
+        } catch (Exception e) {
+            log.error("[CaseRouting] Cognizance state change workflow transaction failure:", e);
+        }
+    }
+
+    /**
+     * RESTORED METHOD: Proposes a target legal attorney mapping allocation block onto an active dispute.
+     */
+    public void proposeLawyerToCase(Long caseId, String lawyerId) {
+        log.info("[CaseRouting] Proposing defense allocation linkage for Case ID: {} to Attorney ID: {}", caseId, lawyerId);
+        try {
+            caseRepository.findById(caseId).ifPresent(caseRecord -> {
+                caseRecord.setLawyerId(lawyerId);
+                caseRepository.save(caseRecord);
+                log.info("[CaseRouting] Defense assignment mapping successfully committed to case tracking pools.");
+            });
+        } catch (Exception e) {
+            log.error("[CaseRouting] Attorney proposal pipeline integration transaction failure:", e);
+        }
+    }
 }
+
