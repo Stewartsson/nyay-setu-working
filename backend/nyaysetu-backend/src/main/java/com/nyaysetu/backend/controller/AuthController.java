@@ -206,6 +206,13 @@ public class AuthController {
     @PostMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest req) {
         try {
+            // Enforce password policy
+            Pattern pwPattern = Pattern.compile("^(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$!%*?&]).{8,}$");
+            if (!pwPattern.matcher(req.getNewPassword()).matches()) {
+                return ResponseEntity.badRequest()
+                    .body(Map.of("message", "Password must be at least 8 characters and include an uppercase letter, a number, and a special character (@#$!%*?&)."));
+            }
+
             String hashedToken = PasswordResetToken.hashToken(req.getToken());
             PasswordResetToken resetToken = tokenRepository.findByToken(hashedToken)
                     .orElseThrow(() -> new RuntimeException("Invalid token"));
