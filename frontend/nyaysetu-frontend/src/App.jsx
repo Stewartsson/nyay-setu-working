@@ -9,6 +9,7 @@ import ScrollToTop from './ScrollToTop';
 import BackToTop from './components/BackToTop';
 import './styles/accessibility.css';
 import ScrollProgressBar from './components/ScrollProgressBar';
+import ScrollButtons from "./components/ScrollButtons";
 
 // PWA Components
 import OfflineIndicator from './components/OfflineIndicator';
@@ -56,6 +57,7 @@ const Terms = retryLazy(() => import('./pages/Terms'));
 const Disclaimer = retryLazy(() => import('./pages/Disclaimer'));
 const UpcomingFeatures = retryLazy(() => import('./pages/UpcomingFeatures'));
 const FAQ = retryLazy(() => import('./pages/FAQ'));
+const Contact = retryLazy(() => import('./pages/Contact'));
 import OAuthSuccess from './pages/OAuthSuccess';
 
 // Dashboard Layout
@@ -88,6 +90,7 @@ const JudicialOverview = retryLazy(() => import('./pages/judge/JudicialOverview'
 const UnassignedPool = retryLazy(() => import('./pages/judge/UnassignedPool'));
 const LiveHearing = retryLazy(() => import('./pages/judge/LiveHearing'));
 const JudgeHearingsPage = retryLazy(() => import('./pages/judge/JudgeHearingsPage'));
+const RedactionReviewPage = retryLazy(() => import('./pages/judge/RedactionReviewPage'));
 
 // Lawyer Pages
 const LawyerCasesPage = retryLazy(() => import('./pages/lawyer/LawyerCasesPage'));
@@ -95,6 +98,7 @@ const MyClientsPage = retryLazy(() => import('./pages/lawyer/MyClientsPage'));
 const CasePreparationPage = retryLazy(() => import('./pages/lawyer/CasePreparationPage'));
 const EvidenceVaultPage = retryLazy(() => import('./pages/lawyer/EvidenceVaultPage'));
 const AILegalAssistantPage = retryLazy(() => import('./pages/lawyer/AILegalAssistantPage'));
+const SemanticSearchPage = retryLazy(() => import('./pages/lawyer/SemanticSearchPage'));
 const LawyerHearingsPage = retryLazy(() => import('./pages/lawyer/LawyerHearingsPage'));
 const LawyerAnalyticsPage = retryLazy(() => import('./pages/lawyer/AnalyticsPage'));
 const LawyerCaseDetailsPage = retryLazy(() => import('./pages/lawyer/LawyerCaseDetailsPage'));
@@ -242,6 +246,7 @@ function App({ swRegistration }) {
                                 <Route path="/disclaimer" element={<Disclaimer />} />
                                 <Route path="/upcoming-features" element={<UpcomingFeatures />} />
                                 <Route path="/faq" element={<FAQ />} />
+                                <Route path="/contact" element={<Contact />} />
 
                                 {/* Litigant Functional Core */}
                                 <Route path="/litigant/*" element={
@@ -277,6 +282,7 @@ function App({ swRegistration }) {
                                     <Route path="preparation" element={<CasePreparationPage />} />
                                     <Route path="evidence" element={<EvidenceVaultPage />} />
                                     <Route path="ai-assistant" element={<AILegalAssistantPage />} />
+                                    <Route path="precedents-search" element={<SemanticSearchPage />} />
                                     <Route path="hearings" element={<LawyerHearingsPage />} />
                                     <Route path="analytics" element={<LawyerAnalyticsPage />} />
                                     <Route path="chat" element={<ClientChatPage />} />
@@ -299,6 +305,7 @@ function App({ swRegistration }) {
                                     <Route path="case/:caseId" element={<JudgeCaseWorkspace />} />
                                     <Route path="conduct" element={<ConductHearingPage />} />
                                     <Route path="analytics" element={<CourtAnalyticsPage />} />
+                                    <Route path="redaction-review" element={<RedactionReviewPage />} />
                                     <Route path="profile" element={<ProfilePage />} />
                                     <Route path="*" element={<Navigate to="/judge" replace />} />
                                 </Route>
@@ -337,7 +344,8 @@ function App({ swRegistration }) {
                     </BrowserRouter>
                 </LanguageProvider>
             </ErrorBoundary>
-        </ThemeProvider>
+        <ScrollButtons />
+    </ThemeProvider>
     );
 }
 
