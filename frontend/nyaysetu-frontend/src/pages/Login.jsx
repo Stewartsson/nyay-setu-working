@@ -501,6 +501,7 @@ export default function Login() {
                             
                             {/* Google Login */}
                             <button
+                                id="google-oauth-btn"
                                 type="button"
                                 onClick={() => {
                                     window.location.href = `${import.meta.env.VITE_API_BASE_URL}/oauth2/authorization/google`;
@@ -545,7 +546,7 @@ export default function Login() {
                                     }}
                                 />
 
-                                Continue with Google
+                                {t('auth:login.continueWithGoogle')}
                             </button>
 
                             {/* Face Login */}
